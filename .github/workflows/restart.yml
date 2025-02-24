@@ -1,4 +1,4 @@
-name: Deploy to AWS Lambda
+name: Auto restart Lightsail
 
 on:
   schedule:
