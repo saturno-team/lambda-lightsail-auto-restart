@@ -1,0 +1,26 @@
+name: Deploy to AWS Lambda
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Executa todos os dias às 07h UTC (04h BRT)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install deps
+        run: npm install
+
+      - name: Execute function to restart LightSail
+        run: node ./index.js
